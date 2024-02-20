@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    <title>脳トレじゃんけん</title>
+   
+</head>
+<body>
+    <header>
+        <h1>脳トレ負けるが勝ち</h1>
+    </header>
+
+    <button id="startBtn">3回連続じゃんけんスタート</button>
+    <button id="resetBtn" class="hidden">もう1回</button>
+    <div id="computerChoice" class="hidden"></div>
+    <div id="result"></div>
+    <audio id="pingpongSound" src="oto/pingpongSound.mp3"></audio>
+    <audio id="zannenSound" src="oto/zannenSound.mp3"></audio>
+    <audio id="happySound" src="oto/happySound.mp3"></audio>
+
+    <main>
+        <div id="game-buttons">
+            <img src="img/gu.png" alt="グー" id="gu">
+            <img src="img/choki.png" alt="チョキ" id="choki">
+            <img src="img/pa.png" alt="パー" id="pa">
+        </div>
+    </main>
+    <footer>
+        <p>正解数: <span id="correctCount">0</span></p>
+        <p><span id="gameCount">0</span>：回め</p>
+    </footer>
+
+    <script>
+        $(document).ready(function() {
+            let correctCount = 0;
+            let gameCount = 0;
+
+            $('#startBtn').click(function() {
+                $(this).addClass('hidden'); // スタートボタンを非表示にする
+                $('#computerChoice').removeClass('hidden'); // コンピュータの手を表示
+                nextRound();
+            });
+
+            $('#resetBtn').click(function() {
+                resetGame();
+            });
+
+            $('#game-buttons img').click(function() {
+                if (gameCount > 3) return; // ゲームが終了していれば何もしない
+                const playerChoice = $(this).attr('id');
+                const computerChoice = $('#computerChoice img').attr('alt');
+                judge(playerChoice, computerChoice);
+                if (gameCount <= 3) {
+                    setTimeout(() => nextRound(), 2000); // 次のラウンドへ進む
+                }
+            });
+
+            function nextRound() {
+                // if (correctCount == 3){
+                //         $('#happySound')[0].play();
+                //     }else {
+                //         $('#nanenSound')[0].play();
+                //     }
+
+                
+                gameCount++;
+                $('#gameCount').text(gameCount);
+                const choices = ['gu', 'choki', 'pa'];
+                const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+                $('#computerChoice').html(`<img src="img/${computerChoice}.png" alt="${computerChoice}">`);
+
+                if (gameCount > 3) {
+                    $('#resetBtn').removeClass('hidden'); // リセットボタンを表示
+                    $('#gameCount').addClass('hidden'); // カウントを非表示にする
+                    $('#happySound')[0].play(); // 正解率が100%の場合にhappy.mp3を再生
+            alert(`ゲーム終了！正解率: ${correctCount / (gameCount - 1) * 100}%`); // gameCountが先にインクリメントされるので、計算時に1を引く
+            
+                   
+                }
+            }
+
+            function judge(player, computer) {
+                const isCorrect = (player === 'gu' && computer === 'pa') ||
+                                  (player === 'choki' && computer === 'gu') ||
+                                  (player === 'pa' && computer === 'choki');
+                if (isCorrect) {
+                    correctCount++;
+                    $('#pingpongSound')[0].play();
+                    displayOverlay('img/maru.png');
+                } else {
+                    $('#zannenSound')[0].play();
+                    displayOverlay('img/batu.png');
+                }
+                $('#correctCount').text(correctCount);
+            }
+
+            function displayOverlay(imageSrc) {
+                $('body').append(`<div class="correct-overlay"><img src="${imageSrc}" alt="" class="fullscreen-img"></div>`);
+                setTimeout(function() {
+                    $('.correct-overlay').remove();
+                }, 2000); // 2000ミリ秒（2秒）後に画像を非表示にする
+            }
+
+            function resetGame() {
+                gameCount = 0;
+                correctCount = 0;
+                $('#correctCount').text(correctCount);
+                $('#gameCount').text(gameCount);
+                $('#computerChoice').addClass('hidden');
+                $('#resetBtn').addClass('hidden'); // リセットボタンを非表示にする
+                $('#startBtn').removeClass('hidden'); // スタートボタンを再表示
+                $('#gameCount').removeClass('hidden'); // カウントを再表示
+            }
+        });
+    </script>
+</body>
+</html>
