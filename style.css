@@ -1,0 +1,99 @@
+body {  
+  text-align: center; 
+
+}
+#game-buttons img {
+  cursor: pointer;
+  width: 80px;
+  height: 100px;
+  margin: 10px;
+  padding: 10px;
+  transition: transform 0.3s;
+}
+#game-buttons img:hover {
+  transform: scale(1.1);
+}
+#game-buttons img.selected {
+  border: 7px solid red;
+}
+button {
+  background-color: #1800a1; /* Adjust button color as needed */
+  color: white;
+  padding: 15px 10px;
+  width: 50%;
+  height: 50%;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+  margin: 20px 0;
+}
+header, footer {
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+}
+main {
+  background-color: #1800a1;
+  padding: 20px;
+  width: 100%; /* 画像サイズを調整 */
+ 
+}
+p {
+  font-size: 30px;
+}
+
+w-full{
+
+}
+
+
+img{
+  width: 100px; 
+  height: 50%;
+  margin: 10px;
+  padding: 10px;} 
+
+  .correct-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+  }
+  
+  .fullscreen-mar {
+    width: 50%; /* 画像サイズを調整 */
+  }
+
+
+  .hidden {
+    display: none;
+}
+#computerChoice img, #game-buttons img {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+#game-buttons img:hover {
+    transform: scale(1.1);
+}
+.correct-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+.hidden { display: none; }
+.selected { border: 5px solid red; } /* 選択したボタンに赤枠を追加 */
+.fullscreen-img { width: 100vw; height: 100vh; object-fit: cover; position: fixed; top: 0; left: 0; } /* 画面いっぱいに表示 */
+
+
