@@ -23,15 +23,19 @@
     <audio id="happySound" src="oto/happySound.mp3"></audio>
 
     <main>
-        <div id="game-buttons">
+            <div id="game-buttons" class="hidden"> <!-- 初期状態では非表示 -->
             <img src="img/gu.png" alt="グー" id="gu">
             <img src="img/choki.png" alt="チョキ" id="choki">
             <img src="img/pa.png" alt="パー" id="pa">
         </div>
+   
+
     </main>
     <footer>
-        <p>正解数: <span id="correctCount">0</span></p>
-        <p><span id="gameCount">0</span>：回め</p>
+    <div id="initial-img"><img src="img/j-gameimg.jpg" alt="" class="fullscreen-mar "></div> <!-- 最初の画像を表示 -->
+    <p><span id="gameCount">0</span>：回め選んで</p> 
+    <p>正解数: <span id="correctCount">0</span></p>
+    
     </footer>
 
     <script>
@@ -41,7 +45,9 @@
 
             $('#startBtn').click(function() {
                 $(this).addClass('hidden'); // スタートボタンを非表示にする
-                $('#computerChoice').removeClass('hidden'); // コンピュータの手を表示
+                $('#initial-img').addClass('hidden'); // 初期画像を非表示にする
+                $('#computerChoice, #game-buttons').removeClass('hidden');  // コンピュータの手を表示
+            
                 nextRound();
             });
 
@@ -50,14 +56,20 @@
             });
 
             $('#game-buttons img').click(function() {
+                $('#game-buttons img').removeClass('selected'); // 他の選択を解除
+                $(this).addClass('selected'); // 選択したボタンに赤枠を追加
                 if (gameCount > 3) return; // ゲームが終了していれば何もしない
                 const playerChoice = $(this).attr('id');
                 const computerChoice = $('#computerChoice img').attr('alt');
                 judge(playerChoice, computerChoice);
+
                 if (gameCount <= 3) {
-                    setTimeout(() => nextRound(), 2000); // 次のラウンドへ進む
+                    setTimeout(() => {nextRound();
+                        $('#game-buttons img').removeClass('selected'); // ボタンの赤い囲みを消す
+                    }, 2000); // 次のラウンドへ進む
                 }
             });
+
 
             function nextRound() {
                 // if (correctCount == 3){
@@ -112,6 +124,7 @@
                 $('#gameCount').text(gameCount);
                 $('#computerChoice').addClass('hidden');
                 $('#resetBtn').addClass('hidden'); // リセットボタンを非表示にする
+                $('#game-buttons img').removeClass('selected'); // ボタンの赤い囲みを消す
                 $('#startBtn').removeClass('hidden'); // スタートボタンを再表示
                 $('#gameCount').removeClass('hidden'); // カウントを再表示
             }
