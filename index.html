@@ -27,6 +27,7 @@
             <img src="img/gu.png" alt="グー" id="gu">
             <img src="img/choki.png" alt="チョキ" id="choki">
             <img src="img/pa.png" alt="パー" id="pa">
+
         </div>
    
 
@@ -81,10 +82,10 @@
                 
                 gameCount++;
                 $('#gameCount').text(gameCount);
-                const choices = ['gu', 'choki', 'pa'];
+                const choices = ['gu', 'gu1', 'choki', 'choki1', 'pa', 'pa1']; // 6種類の手を含むように更新
                 const computerChoice = choices[Math.floor(Math.random() * choices.length)];
-                $('#computerChoice').html(`<img src="img/${computerChoice}.png" alt="${computerChoice}">`);
-
+                $('#computerChoice').html(`<img src="img/${computerChoice}.png" alt="${computerChoice.replace(/[0-9]/g, '')}">`); // alt属性を基本形にする
+    
                 if (gameCount > 3) {
                     $('#resetBtn').removeClass('hidden'); // リセットボタンを表示
                     $('#gameCount').addClass('hidden'); // カウントを非表示にする
